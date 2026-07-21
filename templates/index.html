@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Order Details And Timer</title>
+</head>
+
+<body>
+
+<h3>Order Timer</h3>
+
+<p>
+    Timer:
+    <span id="timer">Loading...</span>
+</p>
+
+<h3>Order Details</h3>
+
+<div id="order_details"></div>
+
+<script>
+
+let timerInterval;
+
+function loadTimer() {
+
+    fetch("/order_timer")
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        let timer = data.order_timer;
+
+        let orders = data.order_details.orders;
+
+        if (timer > 0) {
+            document.getElementById("timer").innerText =
+                timer + " min remaining";
+        } else {
+            document.getElementById("timer").innerText =
+                "Order Completed";
+        }
+
+        let html = "";
+
+        orders.forEach(order => {
+
+            html += `
+                <hr>
+
+                <p><strong>Client:</strong> ${order.client}</p>
+                <p><strong>Order:</strong> ${order.order}</p>
+                <p><strong>Dish:</strong> ${order.dish}</p>
+                <p><strong>Qty:</strong> ${order.qty}</p>
+                <p><strong>Created:</strong> ${order.created}</p>
+                <p><strong>ETA:</strong> ${order.eta} min</p>
+                <p><strong>Status:</strong> ${order.status}</p>
+            `;
+        });
+
+        document.getElementById("order_details").innerHTML =
+            html;
+
+    })
+
+    .catch(error => {
+        console.log(error);
+    });
+
+}
+
+loadTimer();
+
+timerInterval = setInterval(loadTimer, 60000);
+
+</script>
+
+</body>
+
+</html>
