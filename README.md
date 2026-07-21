@@ -1,6 +1,6 @@
 1. Project Title
 
-  Restaurant Order Management System (Python + SQLite + FLASK)
+	Restaurant Order Management System (Python + SQLite + FLASK)
 
 2. Objective
 
